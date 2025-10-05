@@ -9,6 +9,8 @@
   <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
 </head>
 <body>
+  <div class="scroll-progress-bar" id="progressBar"></div>
+
   <header class="site-header">
     <div class="container header-inner">
       <div class="brand">
@@ -23,40 +25,40 @@
   </header>
 
   <main>
-<section class="hero">
-  <div class="container">
-    <div class="hero-grid">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
 
-      <div class="hero-content-col">
-        <h2>Towards rigorous reasoning and educational impact</h2>
-        <p class="lead">
-          Combining evolutionary program synthesis with language-model reasoning to build verified,
-          multimodal puzzle-solving assistants and a lightweight student-facing platform for Grades 1–8.
-        </p>
-        <div class="cta-row">
-          <a class="btn" id="paper" href="assets/paper.pdf" target="_blank" rel="noopener">Download Proposal (PDF)</a>
-          <a class="btn ghost" href="#contact">Contact / Join</a>
-        </div>
+          <div class="hero-content-col">
+            <h2>Towards rigorous reasoning and educational impact</h2>
+            <p class="lead">
+              Combining evolutionary program synthesis with language-model reasoning to build verified,
+              multimodal puzzle-solving assistants and a lightweight student-facing platform for Grades 1–8.
+            </p>
+            <div class="cta-row">
+              <a class="btn" id="paper" href="assets/paper.pdf" target="_blank" rel="noopener">Download Proposal (PDF)</a>
+              <a class="btn ghost" href="#contact">Contact / Join</a>
+            </div>
 
-        <div class="objective-cards">
-          <div class="card small">
-            <h3>Primary objective</h3>
-            <p>Publish a rigorous method combining evolutionary program synthesis with LLM reasoning and release dataset & code.</p>
+            <div class="objective-cards">
+              <div class="card small">
+                <h3>Primary objective</h3>
+                <p>Publish a rigorous method combining evolutionary program synthesis with LLM reasoning and release dataset & code.</p>
+              </div>
+              <div class="card small muted">
+                <h3>Secondary objective</h3>
+                <p>Lightweight prototype for student use, logging attempts and pedagogically-structured hints.</p>
+              </div>
+            </div>
           </div>
-          <div class="card small muted">
-            <h3>Secondary objective</h3>
-            <p>Lightweight prototype for student use, logging attempts and pedagogically-structured hints.</p>
+
+          <div class="hero-image-col">
+            <img src="evolution-diagram.png" alt="Diagram illustrating the evolutionary algorithm process.">
           </div>
+
         </div>
       </div>
-
-      <div class="hero-image-col">
-        <img src="assets/evolution-diagram.png" alt="Diagram illustrating the evolutionary algorithm process.">
-      </div>
-
-    </div>
-  </div>
-</section>
+    </section>
     <section class="container sections" id="overview">
       <div class="cols">
         <div class="col">
@@ -79,41 +81,41 @@
       </div>
     </section>
 
-<section class="section container" id="approach">
-    <h2 class="section-title">⚙️ Our Technical Approach</h2>
-    <p class="lead" style="text-align: center; max-width: 800px; margin: -2rem auto 3rem auto;">
-        Our process integrates the creative reasoning of LLMs with the logical rigor of formal methods, ensuring our solutions are both insightful and guaranteed to be correct.
-    </p>
+    <section class="section container" id="approach">
+        <h2 class="section-title">⚙️ Our Technical Approach</h2>
+        <p class="lead" style="text-align: center; max-width: 800px; margin: -2rem auto 3rem auto;">
+            Our process integrates the creative reasoning of LLMs with the logical rigor of formal methods, ensuring our solutions are both insightful and guaranteed to be correct.
+        </p>
 
-    <div class="pipeline-flow">
-        <div class="flow-item"><strong>1. Datasets &amp; Benchmarks</strong></div>
-        <div class="flow-item"><strong>2. Formal Representation (PDDL)</strong></div>
-        <div class="flow-item"><strong>3. LLM-Generated Proposals</strong></div>
-        <div class="flow-item"><strong>4. Evolutionary Synthesis &amp; Verification</strong></div>
-        <div class="flow-item"><strong>5. Student Interface &amp; Logging</strong></div>
-    </div>
+        <div class="pipeline-flow">
+            <div class="flow-item"><strong>1. Datasets &amp; Benchmarks</strong></div>
+            <div class="flow-item"><strong>2. Formal Representation (PDDL)</strong></div>
+            <div class="flow-item"><strong>3. LLM-Generated Proposals</strong></div>
+            <div class="flow-item"><strong>4. Evolutionary Synthesis &amp; Verification</strong></div>
+            <div class="flow-item"><strong>5. Student Interface &amp; Logging</strong></div>
+        </div>
 
-    <div class="grid" style="margin-top: 4rem;">
-        <div class="card">
-            <h3>🎯 Measuring Success: Core Metrics</h3>
-            <ul>
-                <li><strong>Solution Correctness:</strong> Every solution must be 100% executable and formally verified.</li>
-                <li><strong>Solution Diversity:</strong> The system must find multiple, distinct valid solution paths.</li>
-                <li><strong>Hint Usefulness:</strong> The quality of generated hints will be rated by human evaluators.</li>
-                <li><strong>Generalization Power:</strong> We will test performance on unseen puzzle types to measure true reasoning.</li>
-            </ul>
+        <div class="grid" style="margin-top: 4rem;">
+            <div class="card">
+                <h3>🎯 Measuring Success: Core Metrics</h3>
+                <ul>
+                    <li><strong>Solution Correctness:</strong> Every solution must be 100% executable and formally verified.</li>
+                    <li><strong>Solution Diversity:</strong> The system must find multiple, distinct valid solution paths.</li>
+                    <li><strong>Hint Usefulness:</strong> The quality of generated hints will be rated by human evaluators.</li>
+                    <li><strong>Generalization Power:</strong> We will test performance on unseen puzzle types to measure true reasoning.</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>🏫 From Lab to Classroom: Pilot Studies</h3>
+                <p>
+                    To bridge research and real-world impact, we will conduct pilot studies in local classrooms, delivering the puzzle assistant in <strong>Hindi (हिन्दी)</strong> and <strong>Bengali (বাংলা)</strong>.
+                </p>
+                <p>
+                    The primary goals are to measure student engagement and learning outcomes, using the collected data to iteratively improve the AI solver.
+                </p>
+            </div>
         </div>
-        <div class="card">
-            <h3>🏫 From Lab to Classroom: Pilot Studies</h3>
-            <p>
-                To bridge research and real-world impact, we will conduct pilot studies in local classrooms, delivering the puzzle assistant in <strong>Hindi (हिन्दी)</strong> and <strong>Bengali (বাংলা)</strong>.
-            </p>
-            <p>
-                The primary goals are to measure student engagement and learning outcomes, using the collected data to iteratively improve the AI solver.
-            </p>
-        </div>
-    </div>
-</section>
+    </section>
     <section class="container sections" id="timeline">
       <h3>Timeline (12 months)</h3>
       <ol class="timeline">
@@ -190,5 +192,16 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    // This script handles the scroll progress bar
+    const progressBar = document.getElementById('progressBar');
+    window.addEventListener('scroll', () => {
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrollPercent = (scrollTop / scrollHeight) * 100;
+      progressBar.style.width = scrollPercent + '%';
+    });
+  </script>
 </body>
 </html>
