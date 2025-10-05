@@ -1,4 +1,4 @@
-/* --- style.css : Revised slate theme with improved readability & header fix --- */
+/* --- style.css : Final version with solid header background fix --- */
 
 :root {
   /* A modern, high-contrast slate theme for better readability */
@@ -22,7 +22,6 @@
 
 html {
   scroll-behavior: smooth;
-  /* This is the fix for the sticky header. It adds padding when scrolling to an anchor. */
   scroll-padding-top: 80px; 
 }
 
@@ -32,7 +31,7 @@ body {
   background: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden; /* Prevents horizontal scroll from animations */
+  overflow-x: hidden;
 }
 
 @keyframes fadeInUp {
@@ -54,8 +53,9 @@ body {
 
 /* --- Header --- */
 .site-header {
-  background: rgba(17, 24, 39, 0.8); /* Semi-transparent background */
-  backdrop-filter: blur(10px); /* Glass effect */
+  /* This is the fix: Changed background to a solid color */
+  background: var(--panel);
+  backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--card-border);
   position: sticky;
   top: 0;
@@ -99,7 +99,7 @@ body {
 
 .btn.primary {
   background: var(--highlight);
-  color: #0c1322; /* Darker text for better contrast on the blue button */
+  color: #0c1322;
   border-color: var(--highlight);
 }
 
