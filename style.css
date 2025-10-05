@@ -1,4 +1,4 @@
-/* --- style.css : High-Contrast Academic Slate & Amber Theme --- */
+/* --- style.css : High-Contrast Academic Slate & Amber Theme with Animations --- */
 
 :root {
   /* A refined, high-contrast academic palette for excellent readability. */
@@ -36,6 +36,43 @@ body {
   margin: 0 auto;
   padding: 0 2rem;
 }
+
+/* --- Scroll Progress Bar --- */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background: var(--accent);
+  width: 0%;
+  z-index: 2000; /* Ensures it's above all other elements */
+  transition: width 0.1s ease-out;
+}
+
+/* --- Page Load Animation --- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Apply animation to sections */
+.hero, .section, .sections {
+  opacity: 0; /* Start hidden */
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Stagger the animation for a smoother effect */
+.hero { animation-delay: 0.1s; }
+#overview { animation-delay: 0.2s; }
+#approach { animation-delay: 0.3s; }
+#timeline { animation-delay: 0.4s; }
+
 
 /* --- Header --- */
 .site-header {
@@ -145,33 +182,21 @@ h4 { font-size: 1.2rem; }
 
 /* --- Hero Section --- */
 .hero { padding: 5rem 0; }
-/* --- Hero Section Grid --- */
+
 .hero-grid {
   display: grid;
-  gap: 3rem; /* Increased gap for better separation */
+  gap: 3rem;
   align-items: center;
-  grid-template-columns: 1.5fr 1fr; /* Give more space to the text content */
-}
-@media (min-width: 800px) {
-  .hero-grid { grid-template-columns: 1fr 340px; }
+  grid-template-columns: 1fr; /* Default to single column */
 }
 
-/* --- Objective Cards Layout --- */
-.objective-cards {
-  margin-top: 2.5rem; /* Space above the cards */
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: 1fr; /* Stack cards by default */
-}
-/* For slightly wider screens, place cards side-by-side */
-@media (min-width: 500px) {
-  .objective-cards {
-    grid-template-columns: 1fr 1fr;
+/* Set image to the side on larger screens and fix its width */
+@media (min-width: 850px) {
+  .hero-grid {
+    grid-template-columns: 1fr 340px;
   }
 }
 
-
-/* --- Hero Image Styling --- */
 .hero-image-col img {
   width: 100%;
   height: auto;
@@ -179,7 +204,7 @@ h4 { font-size: 1.2rem; }
   border: 1px solid var(--border);
 }
 
-.hero-left h2 {
+.hero-left h2, .hero-content-col h2 {
   font-size: 2.5rem;
   font-weight: 700;
   margin: 0 0 1rem;
@@ -192,12 +217,22 @@ h4 { font-size: 1.2rem; }
   flex-wrap: wrap;
 }
 
-/* --- Responsive Hero Section --- */
-@media (max-width: 850px) {
-  .hero-grid {
-    grid-template-columns: 1fr; /* Single column on smaller screens */
+/* --- NEWLY ADDED: Objective Cards Layout --- */
+.objective-cards {
+  margin-top: 2rem;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Stack cards on smaller screens */
+@media (max-width: 600px) {
+  .objective-cards {
+    grid-template-columns: 1fr;
   }
 }
+
+
 /* --- Cards --- */
 .card {
   background: var(--panel);
