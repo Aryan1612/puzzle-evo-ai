@@ -1,13 +1,13 @@
-/* --- style.css : Refined dark academic theme with animations & glassmorphism --- */
+/* --- style.css : Revised slate theme with improved readability & header fix --- */
 
 :root {
-  /* Inspired by the example's high-contrast palette */
-  --bg: #1a1a2e;
-  --panel: #16213e;
-  --text: #eaeaea;
-  --text-dim: #a0a0a0;
-  --highlight: #e94560; /* Strong, single accent color */
-  --card-bg: rgba(15, 52, 96, 0.2); /* Semi-transparent for glass effect */
+  /* A modern, high-contrast slate theme for better readability */
+  --bg: #111827;          /* Dark Slate (almost black) */
+  --panel: #1f2937;        /* Lighter Slate */
+  --text: #f9fafb;         /* Bright Off-White */
+  --text-dim: #9ca3af;     /* Muted Gray */
+  --highlight: #38bdf8;   /* Vibrant Sky Blue */
+  --card-bg: rgba(31, 41, 55, 0.5); /* Semi-transparent card background */
   --card-border: rgba(255, 255, 255, 0.1);
   --radius: 12px;
   --maxw: 1200px;
@@ -22,6 +22,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* This is the fix for the sticky header. It adds padding when scrolling to an anchor. */
+  scroll-padding-top: 80px; 
 }
 
 body {
@@ -33,7 +35,6 @@ body {
   overflow-x: hidden; /* Prevents horizontal scroll from animations */
 }
 
-/* A subtle fade-in animation for major elements */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -53,7 +54,7 @@ body {
 
 /* --- Header --- */
 .site-header {
-  background: rgba(26, 26, 46, 0.8); /* Semi-transparent background */
+  background: rgba(17, 24, 39, 0.8); /* Semi-transparent background */
   backdrop-filter: blur(10px); /* Glass effect */
   border-bottom: 1px solid var(--card-border);
   position: sticky;
@@ -73,7 +74,6 @@ body {
   margin: 0;
   font-size: 1.5rem;
   font-weight: 700;
-  /* Replicating the gradient text effect */
   background: linear-gradient(135deg, var(--text) 0%, var(--highlight) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -99,13 +99,13 @@ body {
 
 .btn.primary {
   background: var(--highlight);
-  color: white;
+  color: #0c1322; /* Darker text for better contrast on the blue button */
   border-color: var(--highlight);
 }
 
 .btn.primary:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(233, 69, 96, 0.3);
+  box-shadow: 0 10px 20px rgba(56, 189, 248, 0.2);
 }
 
 .btn.secondary {
@@ -128,7 +128,7 @@ body {
 }
 
 .hero h2 {
-  font-size: clamp(2rem, 5vw, 3.5rem); /* Responsive font size */
+  font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 800;
   line-height: 1.2;
   margin: 0 0 1rem;
@@ -163,8 +163,8 @@ body {
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
   animation: fadeInUp 0.8s ease-out forwards;
-  animation-delay: 0.2s; /* Staggered animation */
-  opacity: 0; /* Start hidden for animation */
+  animation-delay: 0.2s;
+  opacity: 0;
 }
 
 .card:hover {
@@ -199,7 +199,6 @@ body {
   display: inline-block;
 }
 
-/* Animated underline from the example */
 .section-title::after {
   content: '';
   position: absolute;
@@ -242,7 +241,6 @@ body {
   position: relative;
 }
 
-/* Arrow connector */
 .flow-item:not(:last-child)::after {
   content: '→';
   position: absolute;
@@ -261,7 +259,6 @@ body {
   position: relative;
 }
 
-/* The vertical line */
 .timeline::before {
   content: '';
   position: absolute;
@@ -278,11 +275,10 @@ body {
   padding-left: 1.5rem;
 }
 
-/* The dot on the line */
 .timeline li::before {
   content: '';
   position: absolute;
-  left: -2.5rem; /* (padding-left of parent) + (half-width of dot) */
+  left: -2.5rem;
   top: 4px;
   width: 16px;
   height: 16px;
