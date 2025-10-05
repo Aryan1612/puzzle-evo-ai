@@ -64,7 +64,7 @@
         </div>
 
         <div class="col">
-          <h3>Approach (brief)</h3>
+          <h3>Approach</h3>
           <ul>
             <li>Represent puzzles using compact DSL/PDDL; annotate multiple valid solution paths and hint steps.</li>
             <li>LLMs propose high-level solutions; evolutionary program synthesis refines candidates; symbolic interpreters verify them.</li>
@@ -74,33 +74,41 @@
       </div>
     </section>
 
-    <section class="container sections" id="tech">
-      <h3>Technical pipeline</h3>
-      <div class="pipeline">
-        <div class="step">Dataset & Benchmarks →</div>
-        <div class="step">Representation (PDDL/DSL) →</div>
-        <div class="step">LLM proposals →</div>
-        <div class="step">Evolutionary synthesis + verification →</div>
-        <div class="step">Student GUI & logging</div>
-      </div>
+<section class="section container" id="approach">
+    <h2 class="section-title">⚙️ Our Technical Approach</h2>
+    <p class="lead" style="text-align: center; max-width: 800px; margin: -2rem auto 3rem auto;">
+        Our process integrates the creative reasoning of LLMs with the logical rigor of formal methods, ensuring our solutions are both insightful and guaranteed to be correct.
+    </p>
 
-      <div class="two-cols">
-        <div>
-          <h4>Evaluation metrics</h4>
-          <ul>
-            <li>Solution correctness (executable/verified)</li>
-            <li>Multiplicity of solutions found</li>
-            <li>Human-rated hint usefulness</li>
-            <li>Generalization to unseen puzzle types</li>
-          </ul>
-        </div>
-        <div>
-          <h4>Planned pilot studies</h4>
-          <p>Small classroom pilots (local languages: Hindi/Bengali) to measure engagement and learning impact; collect traces for iterative improvement.</p>
-        </div>
-      </div>
-    </section>
+    <div class="pipeline-flow">
+        <div class="flow-item"><strong>1. Datasets &amp; Benchmarks</strong></div>
+        <div class="flow-item"><strong>2. Formal Representation (PDDL)</strong></div>
+        <div class="flow-item"><strong>3. LLM-Generated Proposals</strong></div>
+        <div class="flow-item"><strong>4. Evolutionary Synthesis &amp; Verification</strong></div>
+        <div class="flow-item"><strong>5. Student Interface &amp; Logging</strong></div>
+    </div>
 
+    <div class="grid" style="margin-top: 4rem;">
+        <div class="card">
+            <h3>🎯 Measuring Success: Core Metrics</h3>
+            <ul>
+                <li><strong>Solution Correctness:</strong> Every solution must be 100% executable and formally verified.</li>
+                <li><strong>Solution Diversity:</strong> The system must find multiple, distinct valid solution paths.</li>
+                <li><strong>Hint Usefulness:</strong> The quality of generated hints will be rated by human evaluators.</li>
+                <li><strong>Generalization Power:</strong> We will test performance on unseen puzzle types to measure true reasoning.</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3>🏫 From Lab to Classroom: Pilot Studies</h3>
+            <p>
+                To bridge research and real-world impact, we will conduct pilot studies in local classrooms, delivering the puzzle assistant in <strong>Hindi (हिन्दी)</strong> and <strong>Bengali (বাংলা)</strong>.
+            </p>
+            <p>
+                The primary goals are to measure student engagement and learning outcomes, using the collected data to iteratively improve the AI solver.
+            </p>
+        </div>
+    </div>
+</section>
     <section class="container sections" id="timeline">
       <h3>Timeline (12 months)</h3>
       <ol class="timeline">
