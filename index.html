@@ -1,181 +1,774 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Evolutionary Program Synthesis for Educational Puzzles — Aryan Arora</title>
-<link rel="stylesheet" href="style.css?ver=1" />
-  <meta name="description" content="Evolutionary Program Synthesis for Educational Puzzles — project page for Aryan Arora (IIT Kharagpur). Paper, timeline and prototype placeholder." />
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolutionary Program Synthesis for Educational Puzzles | India AI Fellowship</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --text: #eaeaea;
+            --text-dim: #a0a0a0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page:nth-child(even) {
+            background: var(--secondary);
+        }
+
+        .nav-dots {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--text-dim);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-dot:hover, .nav-dot.active {
+            background: var(--highlight);
+            transform: scale(1.5);
+        }
+
+        .nav-dot::after {
+            content: attr(data-title);
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            font-size: 0.85rem;
+            background: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        .nav-dot:hover::after {
+            opacity: 1;
+        }
+
+        .content {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .hero {
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text) 0%, var(--highlight) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+        }
+
+        .hero .meta {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+            font-size: 0.95rem;
+            color: var(--text-dim);
+        }
+
+        .hero .meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-20px); }
+            60% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        .scroll-indicator::after {
+            content: '↓';
+            font-size: 2rem;
+            color: var(--highlight);
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60%;
+            height: 4px;
+            background: var(--highlight);
+            animation: expandWidth 0.8s ease-out;
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; }
+            to { width: 60%; }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--highlight);
+            box-shadow: 0 20px 40px rgba(233, 69, 96, 0.2);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--highlight);
+        }
+
+        .card p {
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+
+        .highlight-text {
+            color: var(--highlight);
+            font-weight: 600;
+        }
+
+        .stats {
+            display: flex;
+            gap: 3rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 3rem 0;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--highlight);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--highlight), transparent);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            padding-left: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3.5rem;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--highlight);
+            border: 3px solid var(--primary);
+        }
+
+        .timeline-period {
+            font-weight: 700;
+            color: var(--highlight);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content {
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--highlight);
+            color: white;
+            border: 2px solid var(--highlight);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--text);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: scale(1.05);
+            border-color: var(--highlight);
+        }
+
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--highlight), var(--accent));
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        .team-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-role {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .approach-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 3rem 0;
+        }
+
+        .flow-item {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .flow-item::after {
+            content: '→';
+            position: absolute;
+            right: -1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: var(--highlight);
+        }
+
+        .flow-item:last-child::after {
+            display: none;
+        }
+
+        .flow-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-dots {
+                display: none;
+            }
+
+            .page {
+                padding: 1rem;
+            }
+
+            .approach-flow {
+                flex-direction: column;
+            }
+
+            .flow-item::after {
+                content: '↓';
+                right: auto;
+                top: auto;
+                bottom: -2rem;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .timeline {
+                padding-left: 2rem;
+            }
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: var(--highlight);
+            color: white;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 1rem 0;
+        }
+    </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <div class="brand">
-        <h1>Evolutionary Program Synthesis for Educational Puzzles</h1>
-        <p class="byline">Aryan Arora — under the guidance of Prof. Somak Aditya · IIT Kharagpur</p>
-      </div>
-      <nav class="nav">
-        <a class="btn ghost" href="#paper">Read Proposal</a>
-        <a class="btn" href="#platform">Prototype (Coming Soon)</a>
-      </nav>
+    <nav class="nav-dots">
+        <div class="nav-dot active" data-title="Home" onclick="scrollToPage(0)"></div>
+        <div class="nav-dot" data-title="Overview" onclick="scrollToPage(1)"></div>
+        <div class="nav-dot" data-title="Motivation" onclick="scrollToPage(2)"></div>
+        <div class="nav-dot" data-title="Approach" onclick="scrollToPage(3)"></div>
+        <div class="nav-dot" data-title="Timeline" onclick="scrollToPage(4)"></div>
+        <div class="nav-dot" data-title="Team" onclick="scrollToPage(5)"></div>
+        <div class="nav-dot" data-title="Contact" onclick="scrollToPage(6)"></div>
+    </nav>
+
+    <div class="page">
+        <div class="content hero">
+            <h1 class="floating">Evolutionary Program Synthesis<br>for Educational Puzzles</h1>
+            <p class="subtitle">Bridging AI Reasoning with Educational Impact</p>
+            <div class="status-badge">🇮🇳 India AI Fellowship 2025</div>
+            <div class="meta">
+                <span>📍 IIT Kharagpur</span>
+                <span>🏛️ Centre for Excellence in AI</span>
+                <span>📅 September 2025</span>
+            </div>
+            <div class="scroll-indicator"></div>
+        </div>
     </div>
-  </header>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-left">
-          <h2>Towards rigorous reasoning and educational impact</h2>
-          <p class="lead">
-            Combining evolutionary program synthesis with language-model reasoning to build verified,
-            multimodal puzzle-solving assistants and a lightweight student-facing platform for Grades 1–8.
-          </p>
-          <div class="cta-row">
-            <a class="btn" id="paper" href="assets/paper.pdf" target="_blank" rel="noopener">Download Proposal (PDF)</a>
-            <a class="btn ghost" href="#contact">Contact / Join</a>
-          </div>
+    <div class="page">
+        <div class="content">
+            <h2 class="section-title">Project Overview</h2>
+            <p style="font-size: 1.2rem; line-height: 1.8; color: var(--text-dim); margin-bottom: 3rem;">
+                This research project combines educational motivation with cutting-edge AI research, 
+                bridging <span class="highlight-text">Large Language Model reasoning</span> with 
+                <span class="highlight-text">evolutionary program synthesis</span> to create an automated 
+                puzzle assistant for educational settings.
+            </p>
+
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-number">~9.5K</span>
+                    <span class="stat-label">PDDL Problems</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">6</span>
+                    <span class="stat-label">Puzzle Types</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">12</span>
+                    <span class="stat-label">Month Timeline</span>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <a href="#" class="btn btn-primary">📄 Read Full Proposal</a>
+                <a href="#" class="btn btn-secondary">💻 View Code</a>
+                <a href="#" class="btn btn-secondary">📊 Dataset</a>
+            </div>
         </div>
-
-        <aside class="hero-right">
-          <div class="card small">
-            <h3>Primary objective</h3>
-            <p>Publish a rigorous method combining evolutionary program synthesis with LLM reasoning and release dataset & code.</p>
-            <small>Timeline: 12 months (projected)</small>
-          </div>
-
-          <div class="card small muted">
-            <h3>Secondary objective</h3>
-            <p>Lightweight prototype for student use, logging attempts and pedagogically-structured hints.</p>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section class="container sections" id="overview">
-      <div class="cols">
-        <div class="col">
-          <h3>Motivation</h3>
-          <p>
-            Puzzle-based learning improves spatial and logical reasoning. Yet adoption in classrooms is limited by lack of localized content,
-            adaptive feedback and teacher tooling. Our project builds an automated puzzle assistant that generates verified strategies,
-            provides structured hints, and supports multilingual deployment.
-          </p>
-        </div>
-
-        <div class="col">
-          <h3>Approach (brief)</h3>
-          <ul>
-            <li>Represent puzzles using compact DSL/PDDL; annotate multiple valid solution paths and hint steps.</li>
-            <li>LLMs propose high-level solutions; evolutionary program synthesis refines candidates; symbolic interpreters verify them.</li>
-            <li>Self-improvement loop using student traces to refine generators and search operators.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="container sections" id="tech">
-      <h3>Technical pipeline</h3>
-      <div class="pipeline">
-        <div class="step">Dataset & Benchmarks →</div>
-        <div class="step">Representation (PDDL/DSL) →</div>
-        <div class="step">LLM proposals →</div>
-        <div class="step">Evolutionary synthesis + verification →</div>
-        <div class="step">Student GUI & logging</div>
-      </div>
-
-      <div class="two-cols">
-        <div>
-          <h4>Evaluation metrics</h4>
-          <ul>
-            <li>Solution correctness (executable/verified)</li>
-            <li>Multiplicity of solutions found</li>
-            <li>Human-rated hint usefulness</li>
-            <li>Generalization to unseen puzzle types</li>
-          </ul>
-        </div>
-        <div>
-          <h4>Planned pilot studies</h4>
-          <p>Small classroom pilots (local languages: Hindi/Bengali) to measure engagement and learning impact; collect traces for iterative improvement.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="container sections" id="timeline">
-      <h3>Timeline (12 months)</h3>
-      <ol class="timeline">
-        <li><strong>Months 1–3:</strong> Dataset curation and baseline reproduction.</li>
-        <li><strong>Months 4–6:</strong> Implement LLM + evolutionary + symbolic pipeline; initial experiments.</li>
-        <li><strong>Months 7–9:</strong> Stochastic/image-based puzzles; hint generation; human evaluation setup.</li>
-        <li><strong>Months 10–12:</strong> Pilot GUI, finalize experiments, paper write-up, public release.</li>
-      </ol>
-    </section>
-
-    <section class="container sections" id="platform">
-      <h3>Prototype / Platform (placeholder)</h3>
-      <p>
-        A lightweight, static-first student GUI (HTML/CSS/JS) will offer puzzle interaction, hint requests, and attempt logging.
-        The demo will be linked here when ready. For now, this site acts as the canonical project landing page and documentation hub.
-      </p>
-
-      <div class="card demo-card">
-        <h4>Prototype features (planned)</h4>
-        <ul>
-          <li>Adaptive difficulty & multi-strategy hints</li>
-          <li>Local-language support</li>
-          <li>Teacher dashboard (summary traces)</li>
-          <li>Small-scale pilot data collection</li>
-        </ul>
-        <div class="muted">Demo coming soon — subscribe via contact below.</div>
-      </div>
-    </section>
-
-    <section class="container sections" id="team">
-      <h3>Team & acknowledgements</h3>
-      <div class="people">
-        <div class="person">
-          <h4>Aryan Arora</h4>
-          <p>Project lead. Research interests: Optimization, program synthesis, multimodal reasoning.</p>
-        </div>
-
-        <div class="person">
-          <h4>Prof. Somak Aditya</h4>
-          <p>Advisor — Dept. of CSE, IIT Kharagpur. Guidance in multimodal reasoning & evaluation design.</p>
-        </div>
-      </div>
-
-      <p class="small muted">This project builds on prior PDDL puzzle benchmarks and recent program-synthesis advances; references are in the proposal PDF.</p>
-    </section>
-
-    <section class="container sections" id="paper-section">
-      <h3>Paper & artifacts</h3>
-      <p>Full proposal (PDF) and eventual code & datasets will be released under an open-source license.</p>
-      <div class="row">
-        <a class="btn" href="assets/paper.pdf" target="_blank" rel="noopener">Open Proposal (PDF)</a>
-        <a class="btn ghost" href="https://github.com/Aryan1612/puzzle-evo-ai/" target="_blank" rel="noopener">Project repo</a>
-      </div>
-    </section>
-
-    <section class="container sections contact" id="contact">
-      <h3>Contact</h3>
-      <p>If you'd like to collaborate, pilot the prototype, or reproduce results, get in touch:</p>
-      <p class="contact-info">aryan.arora@iitkgp.ac.in · Department of Mathematics and Computing, IIT Kharagpur</p>
-      <p class="small muted">Or open an issue / PR on the project repository once it’s live.</p>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div>
-        <strong>Evolutionary Program Synthesis for Educational Puzzles</strong>
-        <div class="muted small">Aryan Arora · Dept. of Mathematics and Computing · IIT Kharagpur</div>
-      </div>
-      <div class="footer-links">
-        <a href="assets/paper.pdf" target="_blank" rel="noopener">Proposal (PDF)</a>
-        <span class="muted">•</span>
-        <a href="https://github.com/Aryan1612/puzzle-evo-ai" target="_blank" rel="noopener">GitHub</a>
-      </div>
     </div>
-  </footer>
+
+    <div class="page">
+        <div class="content">
+            <h2 class="section-title">Why This Matters</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>🧩 Puzzles Drive Learning</h3>
+                    <p>Spatial and logical puzzles correlate with better STEM performance. UNICEF advocates for 'Learning through Play' as critical for cognitive development.</p>
+                </div>
+
+                <div class="card">
+                    <h3>🤖 The LLM Challenge</h3>
+                    <p>LLMs lack correctness guarantees, exhibit systematic failures in multi-step planning, and produce compilation errors in structured outputs.</p>
+                </div>
+
+                <div class="card">
+                    <h3>🧬 Evolutionary Solution</h3>
+                    <p>Program synthesis grounds solutions in formal representations. Evolutionary refinement enables iterative improvement via mutation and crossover.</p>
+                </div>
+
+                <div class="card">
+                    <h3>🌏 Local Impact</h3>
+                    <p>Pilot studies in Hindi and Bengali with real classrooms, generating valuable data and measurable educational outcomes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="content">
+            <h2 class="section-title">Technical Approach</h2>
+            
+            <div class="approach-flow">
+                <div class="flow-item">
+                    <div class="flow-icon">📚</div>
+                    <strong>Dataset</strong>
+                    <p style="margin-top: 0.5rem; color: var(--text-dim); font-size: 0.9rem;">PuzzleVQA, AlgoPuzzleVQA, PDDL benchmark</p>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-icon">🤖</div>
+                    <strong>LLM Proposals</strong>
+                    <p style="margin-top: 0.5rem; color: var(--text-dim); font-size: 0.9rem;">High-level solutions & hint sequences</p>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-icon">🧬</div>
+                    <strong>Evolution</strong>
+                    <p style="margin-top: 0.5rem; color: var(--text-dim); font-size: 0.9rem;">Mutation, crossover, selection</p>
+                </div>
+                <div class="flow-item">
+                    <div class="flow-icon">✓</div>
+                    <strong>Verification</strong>
+                    <p style="margin-top: 0.5rem; color: var(--text-dim); font-size: 0.9rem;">Symbolic planners validate</p>
+                </div>
+            </div>
+
+            <div class="grid" style="margin-top: 4rem;">
+                <div class="card">
+                    <h3>Core Innovation</h3>
+                    <p>Hybrid solver pipeline combines LLM flexibility with formal correctness guarantees through evolutionary program synthesis.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Self-Improvement</h3>
+                    <p>Failed attempts and student traces refine the generator, creating a learning feedback loop.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Educational Interface</h3>
+                    <p>Student-facing GUI for Grades 1-8 with adaptive hints, multiple strategies, and interaction logging.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="content">
+            <h2 class="section-title">12-Month Timeline</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-period">Months 1–3</div>
+                    <div class="timeline-content">
+                        <strong>Foundation Phase</strong><br>
+                        Dataset curation (PuzzleVQA, AlgoPuzzleVQA, PDDL benchmark) and baseline reproduction.
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-period">Months 4–6</div>
+                    <div class="timeline-content">
+                        <strong>Core Development</strong><br>
+                        Implement LLM + symbolic + evolutionary search pipeline. Initial experiments on simple puzzles.
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-period">Months 7–9</div>
+                    <div class="timeline-content">
+                        <strong>Extension Phase</strong><br>
+                        Extend to stochastic and image-based puzzles. Develop hint generation module and human evaluation setup.
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-period">Months 10–12</div>
+                    <div class="timeline-content">
+                        <strong>Finalization</strong><br>
+                        Pilot GUI deployment, finalize experiments, write and submit paper. Public code/data release.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="content">
+            <h2 class="section-title">Research Team</h2>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="team-avatar">AA</div>
+                    <div class="team-name">Aryan Arora</div>
+                    <div class="team-role">PhD Student / Fellow</div>
+                    <div class="team-role">India AI Fellowship Recipient</div>
+                </div>
+
+                <div class="team-member">
+                    <div class="team-avatar">SA</div>
+                    <div class="team-name">Prof. Somak Aditya</div>
+                    <div class="team-role">Research Supervisor</div>
+                    <div class="team-role">Dept. of CSE, IIT Kharagpur</div>
+                    <div class="team-role">Centre for Excellence in AI</div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 3rem;">
+                <h3>Foundation Work</h3>
+                <p>Our prior work constructed a benchmark of ~9.5K PDDL problems across six puzzle types with systematic ablations using natural language, symbolic, and hybrid approaches. Currently under review, this work provides both datasets and insights for scaling into educational applications.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="content">
+            <h2 class="section-title">Get Involved</h2>
+            
+            <p style="font-size: 1.2rem; line-height: 1.8; color: var(--text-dim); margin-bottom: 3rem; text-align: center;">
+                We welcome collaboration from educators, researchers, and practitioners interested in 
+                <span class="highlight-text">AI for education</span>, <span class="highlight-text">program synthesis</span>, 
+                or <span class="highlight-text">puzzle-based learning</span>.
+            </p>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>📧 Contact</h3>
+                    <p>Reach out to discuss collaborations, pilot studies, or research partnerships.</p>
+                </div>
+
+                <div class="card">
+                    <h3>🔔 Updates</h3>
+                    <p>Subscribe to our mailing list for paper releases, dataset updates, and pilot results.</p>
+                </div>
+
+                <div class="card">
+                    <h3>💻 Contribute</h3>
+                    <p>Code, datasets, and documentation will be open-sourced for community contributions.</p>
+                </div>
+            </div>
+
+            <div class="btn-group" style="margin-top: 3rem;">
+                <a href="mailto:your.email@example.com" class="btn btn-primary">📧 Email Us</a>
+                <a href="#" class="btn btn-secondary">🐙 GitHub</a>
+                <a href="#" class="btn btn-secondary">📄 Paper (Coming Soon)</a>
+            </div>
+
+            <p style="text-align: center; margin-top: 4rem; color: var(--text-dim);">
+                © 2025 Aryan Arora | IIT Kharagpur | India AI Fellowship<br>
+                <span style="font-size: 0.9rem; opacity: 0.7;">Supported by the Centre for Excellence in Artificial Intelligence</span>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 0;
+        const pages = document.querySelectorAll('.page');
+        const navDots = document.querySelectorAll('.nav-dot');
+        let isScrolling = false;
+
+        function scrollToPage(index) {
+            if (isScrolling || index < 0 || index >= pages.length) return;
+            
+            isScrolling = true;
+            currentPage = index;
+            
+            pages[index].scrollIntoView({ behavior: 'smooth' });
+            
+            navDots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            
+            setTimeout(() => { isScrolling = false; }, 1000);
+        }
+
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartY = e.changedTouches[0].screenY;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchStartY - touchEndY > 50) {
+                scrollToPage(currentPage + 1);
+            } else if (touchEndY - touchStartY > 50) {
+                scrollToPage(currentPage - 1);
+            }
+        }
+
+        document.addEventListener('wheel', (e) => {
+            if (Math.abs(e.deltaY) < 50) return;
+            
+            if (e.deltaY > 0) {
+                scrollToPage(currentPage + 1);
+            } else {
+                scrollToPage(currentPage - 1);
+            }
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const index = Array.from(pages).indexOf(entry.target);
+                    currentPage = index;
+                    navDots.forEach((dot, i) => {
+                        dot.classList.toggle('active', i === index);
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+
+        pages.forEach(page => observer.observe(page));
+    </script>
 </body>
 </html>
