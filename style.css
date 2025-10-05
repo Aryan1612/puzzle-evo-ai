@@ -1,17 +1,20 @@
-/* --- style.css : Revised slate theme with improved readability & header fix --- */
+/* --- style.css : Revised academic theme with improved readability & solid header --- */
 
 :root {
-  /* A modern, high-contrast slate theme for better readability */
-  --bg: #111827;          /* Dark Slate (almost black) */
-  --panel: #1f2937;        /* Lighter Slate */
-  --text: #f9fafb;         /* Bright Off-White */
-  --text-dim: #9ca3af;     /* Muted Gray */
-  --highlight: #38bdf8;   /* Vibrant Sky Blue */
-  --card-bg: rgba(31, 41, 55, 0.5); /* Semi-transparent card background */
-  --card-border: rgba(255, 255, 255, 0.1);
-  --radius: 12px;
+  /* An academic, high-contrast light theme for better readability */
+  --bg: #fdfdfd;          /* Off-White */
+  --panel: #f0f2f5;        /* Light Gray for panels/footer */
+  --text: #212529;         /* Dark Gray for main text (not pure black) */
+  --text-dim: #5c6770;     /* Muted Gray for secondary text */
+  --highlight: #0056b3;   /* Professional Deep Blue */
+  --highlight-rgb: 0, 86, 179; /* RGB version for box-shadow */
+  --card-bg: #ffffff;      /* Pure white for cards */
+  --card-border: #dee2e6;  /* Standard light gray border */
+  
+  --radius: 8px;
   --maxw: 1200px;
   --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+  --serif: 'Georgia', 'Times New Roman', serif;
   --mono: 'JetBrains Mono', monospace;
 }
 
@@ -22,7 +25,6 @@
 
 html {
   scroll-behavior: smooth;
-  /* This is the fix for the sticky header. It adds padding when scrolling to an anchor. */
   scroll-padding-top: 80px; 
 }
 
@@ -32,7 +34,12 @@ body {
   background: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden; /* Prevents horizontal scroll from animations */
+  overflow-x: hidden;
+}
+
+/* Added for new typography scheme */
+h1, h2, h3, h4, h5, h6, .section-title, .brand h1 {
+  font-family: var(--serif);
 }
 
 @keyframes fadeInUp {
@@ -54,8 +61,8 @@ body {
 
 /* --- Header --- */
 .site-header {
-  background: rgba(17, 24, 39, 0.8); /* Semi-transparent background */
-  backdrop-filter: blur(10px); /* Glass effect */
+  background: var(--bg); /* MODIFIED: Solid background */
+  /* REMOVED: backdrop-filter: blur(10px); */
   border-bottom: 1px solid var(--card-border);
   position: sticky;
   top: 0;
@@ -74,10 +81,8 @@ body {
   margin: 0;
   font-size: 1.5rem;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--text) 0%, var(--highlight) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--text); /* MODIFIED: Removed gradient for solid color */
+  /* REMOVED: Gradient properties */
 }
 
 .byline {
@@ -99,13 +104,13 @@ body {
 
 .btn.primary {
   background: var(--highlight);
-  color: #0c1322; /* Darker text for better contrast on the blue button */
+  color: #ffffff; /* MODIFIED: White text for better contrast */
   border-color: var(--highlight);
 }
 
 .btn.primary:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(56, 189, 248, 0.2);
+  box-shadow: 0 10px 20px rgba(var(--highlight-rgb), 0.2); /* MODIFIED: Use new highlight color */
 }
 
 .btn.secondary {
@@ -128,14 +133,12 @@ body {
 }
 
 .hero h2 {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 800;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
   line-height: 1.2;
   margin: 0 0 1rem;
-  background: linear-gradient(135deg, var(--text) 0%, var(--highlight) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--text); /* MODIFIED: Removed gradient for solid color */
+  /* REMOVED: Gradient properties */
 }
 
 .hero .lead {
@@ -154,13 +157,14 @@ body {
   flex-wrap: wrap;
 }
 
-/* --- Cards (with Glassmorphism) --- */
+/* --- Cards --- */
 .card {
   background: var(--card-bg);
   padding: 2rem;
   border-radius: var(--radius);
   border: 1px solid var(--card-border);
-  backdrop-filter: blur(10px);
+  /* REMOVED: backdrop-filter: blur(10px); */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05); /* MODIFIED: Subtle shadow */
   transition: all 0.3s ease;
   animation: fadeInUp 0.8s ease-out forwards;
   animation-delay: 0.2s;
@@ -168,9 +172,9 @@ body {
 }
 
 .card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-8px);
   border-color: var(--highlight);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* MODIFIED: Toned-down hover shadow */
 }
 
 .card h3 {
@@ -236,8 +240,9 @@ body {
   min-width: 200px;
   text-align: center;
   padding: 1.5rem;
-  background: var(--card-bg);
+  background: var(--panel); /* MODIFIED: Use panel color for slight contrast */
   border-radius: var(--radius);
+  border: 1px solid var(--card-border);
   position: relative;
 }
 
@@ -262,11 +267,11 @@ body {
 .timeline::before {
   content: '';
   position: absolute;
-  left: 0;
+  left: 8px; /* MODIFIED: Adjusted for new dot position */
   top: 0;
   bottom: 0;
   width: 2px;
-  background: linear-gradient(180deg, var(--highlight), transparent);
+  background: var(--card-border); /* MODIFIED: Solid, simple line */
 }
 
 .timeline li {
@@ -278,7 +283,7 @@ body {
 .timeline li::before {
   content: '';
   position: absolute;
-  left: -2.5rem;
+  left: -2.05rem; /* MODIFIED: Adjusted for centering on the line */
   top: 4px;
   width: 16px;
   height: 16px;
