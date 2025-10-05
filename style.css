@@ -145,13 +145,38 @@ h4 { font-size: 1.2rem; }
 
 /* --- Hero Section --- */
 .hero { padding: 5rem 0; }
+/* --- Hero Section Grid --- */
 .hero-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 2.5rem;
+  gap: 3rem; /* Increased gap for better separation */
+  align-items: center;
+  grid-template-columns: 1.5fr 1fr; /* Give more space to the text content */
 }
 @media (min-width: 800px) {
   .hero-grid { grid-template-columns: 1fr 340px; }
+}
+
+/* --- Objective Cards Layout --- */
+.objective-cards {
+  margin-top: 2.5rem; /* Space above the cards */
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr; /* Stack cards by default */
+}
+/* For slightly wider screens, place cards side-by-side */
+@media (min-width: 500px) {
+  .objective-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+
+/* --- Hero Image Styling --- */
+.hero-image-col img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
 }
 
 .hero-left h2 {
@@ -167,6 +192,12 @@ h4 { font-size: 1.2rem; }
   flex-wrap: wrap;
 }
 
+/* --- Responsive Hero Section --- */
+@media (max-width: 850px) {
+  .hero-grid {
+    grid-template-columns: 1fr; /* Single column on smaller screens */
+  }
+}
 /* --- Cards --- */
 .card {
   background: var(--panel);
