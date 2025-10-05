@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolutionary Program Synthesis for Educational Puzzles | India AI Fellowship</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.7;
+            color: #2c3e50;
+            background: #f8f9fa;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .affiliation {
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        nav {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #764ba2;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        section {
+            background: white;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            color: #764ba2;
+            font-size: 1.4rem;
+            margin: 2rem 0 1rem;
+        }
+
+        .highlight-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .team-member h4 {
+            color: #2c3e50;
+            margin: 1rem 0 0.5rem;
+        }
+
+        .team-member p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .goals-list {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .goal-item {
+            padding: 1rem 1.5rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #764ba2;
+        }
+
+        .timeline {
+            margin-top: 2rem;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .timeline-period {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: #ffd700;
+            color: #333;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            section {
+                padding: 2rem 1.5rem;
+            }
+
+            .timeline-item {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Evolutionary Program Synthesis for Educational Puzzles</h1>
+        <p>Toward Rigorous Reasoning and Educational Impact</p>
+        <div class="affiliation">
+            India AI Fellowship Grant Proposal<br>
+            Department of CSE, IIT Kharagpur<br>
+            September 2025
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#motivation">Motivation</a></li>
+            <li><a href="#approach">Approach</a></li>
+            <li><a href="#goals">Goals</a></li>
+            <li><a href="#timeline">Timeline</a></li>
+            <li><a href="#team">Team</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <section id="about">
+            <h2>About the Project</h2>
+            <p>This research project combines educational motivation with cutting-edge AI research, bridging Large Language Model (LLM) reasoning with evolutionary program synthesis to create an automated puzzle assistant for educational settings.</p>
+            
+            <div class="highlight-box">
+                <strong>Core Innovation:</strong> We address both correctness and explanation gaps in puzzle-solving AI by grounding solutions in formal representations (PDDL/DSL) while maintaining the flexibility and natural language capabilities of LLMs.
+            </div>
+
+            <div class="status-badge">🔬 Research in Progress</div>
+
+            <div class="button-group">
+                <a href="#" class="btn btn-primary">Read Full Proposal (PDF)</a>
+                <a href="#" class="btn btn-secondary">View Code (Coming Soon)</a>
+            </div>
+        </section>
+
+        <section id="motivation">
+            <h2>Why This Matters</h2>
+            
+            <h3>🧩 Puzzles Drive Learning</h3>
+            <p>Spatial and logical puzzles correlate with better performance in STEM skills and abstract reasoning. UNICEF strongly advocates for 'Learning through Play', identifying puzzle-solving as critical for developing foundational cognitive skills.</p>
+
+            <h3>🤖 The LLM Challenge</h3>
+            <p>While Large Language Models can generate puzzles and explanations, they suffer from critical weaknesses:</p>
+            <ul style="margin-left: 2rem; margin-top: 1rem;">
+                <li>Lack of correctness guarantees in generated solutions</li>
+                <li>Systematic failures in multi-step planning and algorithmic reasoning</li>
+                <li>Compilation and execution errors in structured outputs</li>
+            </ul>
+
+            <h3>🧬 Evolutionary Synthesis Solution</h3>
+            <p>Program synthesis offers a pathway to correctness by grounding solutions in formal representations. Evolutionary synthesis enables iterative refinement where candidate programs evolve via mutation and crossover guided by correctness and feedback.</p>
+
+            <h3>🌏 Local Impact</h3>
+            <p>With support from the Centre for Excellence in Artificial Intelligence at IIT Kharagpur, we plan to conduct pilot studies in local languages (Hindi, Bengali) to assess effectiveness in real educational settings.</p>
+        </section>
+
+        <section id="approach">
+            <h2>Technical Approach</h2>
+            
+            <div class="goal-item">
+                <strong>1. Dataset & Benchmark</strong>
+                <p>Aggregate existing puzzle datasets (PuzzleVQA, AlgoPuzzleVQA) and our PDDL puzzle benchmark (~9.5K problems). Annotate with multiple solution paths and stepwise hints.</p>
+            </div>
+
+            <div class="goal-item">
+                <strong>2. Hybrid Solver Pipeline</strong>
+                <p>LLMs propose high-level solutions → Evolutionary program synthesis refines candidates → Symbolic planners verify and execute solutions.</p>
+            </div>
+
+            <div class="goal-item">
+                <strong>3. Self-Improvement Loop</strong>
+                <p>Use failed attempts and student interaction traces to refine the generator and search policy, following recent self-improving synthesis paradigms.</p>
+            </div>
+
+            <div class="goal-item">
+                <strong>4. Educational Interface</strong>
+                <p>Student-facing GUI for Grades 1-8 with puzzle solving, hint requests, multiple strategies, and logging of attempts for iterative improvement.</p>
+            </div>
+        </section>
+
+        <section id="goals">
+            <h2>Project Goals</h2>
+            
+            <h3>Primary Objective</h3>
+            <div class="highlight-box">
+                <strong>A rigorous, publishable research paper</strong> that proposes a method combining evolutionary program synthesis with LLM reasoning, introduces an annotated benchmark, demonstrates gains over baselines, and releases dataset and code for reproducibility.
+            </div>
+
+            <h3>Secondary Objective</h3>
+            <div class="goals-list">
+                <div class="goal-item">
+                    <strong>Lightweight Prototype Platform</strong>
+                    <p>Web-based GUI for student interaction, hint generation, and data collection</p>
+                </div>
+                <div class="goal-item">
+                    <strong>Pilot Studies</strong>
+                    <p>Initial ablation-style studies with local-language deployment in classrooms</p>
+                </div>
+                <div class="goal-item">
+                    <strong>Open Resources</strong>
+                    <p>Public release of datasets, code, and evaluation tools</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="timeline">
+            <h2>Timeline</h2>
+            <p>12-month research and development plan</p>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-period">Months 1–3</div>
+                    <div>Dataset curation (PuzzleVQA, AlgoPuzzleVQA, PDDL benchmark) and baseline reproduction.</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-period">Months 4–6</div>
+                    <div>Implement LLM + symbolic + evolutionary search pipeline; initial experiments on simple puzzles.</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-period">Months 7–9</div>
+                    <div>Extend to stochastic and image-based puzzles; develop hint generation module; human evaluation setup.</div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-period">Months 10–12</div>
+                    <div>Pilot GUI, finalize experiments, write and submit paper; public code/data release.</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="team">
+            <h2>Research Team</h2>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <h4>Aryan Arora</h4>
+                    <p>PhD Student / Fellow</p>
+                    <p>India AI Fellowship Recipient</p>
+                </div>
+                
+                <div class="team-member">
+                    <h4>Prof. Somak Aditya</h4>
+                    <p>Research Supervisor</p>
+                    <p>Department of CSE, IIT Kharagpur</p>
+                    <p>Centre for Excellence in AI</p>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 2rem;">
+                <strong>Foundation:</strong> Our prior work constructed a benchmark of ~9.5K PDDL problems across six puzzle types and conducted systematic ablations. This work (currently under review) provides both datasets and insights for this project.
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Get Involved</h2>
+            <p>We welcome collaboration from educators, researchers, and practitioners interested in AI for education, program synthesis, or puzzle-based learning.</p>
+            
+            <div class="button-group">
+                <a href="mailto:your.email@example.com" class="btn btn-primary">Contact Us</a>
+                <a href="#" class="btn btn-secondary">Join Our Mailing List</a>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Aryan Arora | IIT Kharagpur | India AI Fellowship</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Supported by the Centre for Excellence in Artificial Intelligence</p>
+    </footer>
+</body>
+</html>
