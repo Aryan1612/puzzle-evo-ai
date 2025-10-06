@@ -9,5 +9,5 @@ Project landing page for the proposal by Aryan Arora (IIT Kharagpur).
 - `README.md` — this file.
 
 
-— Aryan Arora (project lead)
-- Prof. Somak Aditya, Department of Computer Science and Engineering, IIT Kharagpur (Project guide)
+  Aryan Arora (project lead)
+  Prof. Somak Aditya, Department of Computer Science and Engineering, IIT Kharagpur (Project guide)
