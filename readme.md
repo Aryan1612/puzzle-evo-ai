@@ -4,8 +4,9 @@ Project landing page for the proposal by Aryan Arora (IIT Kharagpur).
 
 ## Files in this repo
 - `index.html` — project landing page (dark academic theme).
-- `style.css` — site styles.
-- `assets/paper.pdf` — proposal PDF (place your `aryan_indiaAI_proposal.pdf` here and rename to `paper.pdf`).
+- `style.css` — site styles for `index.html`.
+- `prototype.css` — site styles for `prototype.html`.
+- `prototype.html` — prototype page.
 - `README.md` — this file.
 
 
