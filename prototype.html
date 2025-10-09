@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Puzzle Prototype - Educational Puzzles</title>
+  <link rel="stylesheet" href="prototype.css">
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+</head>
+<body>
+
+  <div class="landing-page" id="landingPage">
+    <div class="landing-content">
+      <h1>🧩 Welcome to the Puzzle Prototype</h1>
+      <p>
+        This is a demonstration of ARC-style abstract reasoning puzzles. You will be presented with 5 challenges. Analyze the input, determine the transformation rule, and apply it to the output grid.
+      </p>
+      <p>Your session will be timed. Good luck!</p>
+      <button class="btn btn-primary" onclick="startSession()">Start Puzzles</button>
+    </div>
+  </div>
+
+  <div class="container" id="puzzleContainer" style="display: none;">
+    <div class="header">
+      <h1>🧩 Educational Puzzle Prototype</h1>
+      <p>Lightweight demo with pre-generated ARC-AGI style puzzles</p>
+    </div>
+
+    <div class="notice">
+      <strong>⚠️ Prototype Notice:</strong> This is a lightweight demonstration with 5 pre-generated puzzles and solutions. Future versions will feature on-demand puzzle generation using evolutionary program synthesis, adaptive difficulty, and multilingual support (Hindi & Bengali).
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat">
+        <div class="stat-label">Current Puzzle</div>
+        <div class="stat-value" id="currentPuzzle">1 / 5</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Time Elapsed</div>
+        <div class="stat-value" id="timeElapsed">00:00</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Completed</div>
+        <div class="stat-value" id="completedCount">0</div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div id="puzzlesContainer"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="hintModal">
+    <div class="modal-content">
+      <div class="modal-header">💡 Hint</div>
+      <div class="hint-text" id="hintText"></div>
+      <button class="btn btn-primary" onclick="closeModal('hintModal')">Got it!</button>
+    </div>
+  </div>
+
+  <div class="modal" id="solutionModal">
+    <div class="modal-content">
+      <div class="modal-header">✅ Solution</div>
+      <div class="solution-text" id="solutionText"></div>
+      <div id="solutionGrid"></div>
+      <button class="btn btn-primary" onclick="closeModal('solutionModal')">Close</button>
+    </div>
+  </div>
+
+  <div class="modal" id="summaryModal">
+    <div class="modal-content">
+      <div class="modal-header">🎉 Session Complete!</div>
+      <div class="summary-card" id="summaryContent"></div>
+      <button class="btn btn-primary" onclick="location.reload()">Start New Session</button>
+    </div>
+  </div>
+
+  <script>
+    const puzzles = [
+      {
+        id: 1,
+        title: "Vertical Reflection",
+        description: "<strong>Task:</strong> Make the output a vertical mirror image of the input. What's on the left should appear on the right.",
+        input: [
+          [1, 0, 0],
+          [1, 1, 0],
+          [0, 0, 0]
+        ],
+        output: [
+          [0, 0, 1],
+          [0, 1, 1],
+          [0, 0, 0]
+        ],
+        hint: "The pattern is horizontally flipped (mirrored). The L-shape on the left becomes an L-shape on the right.",
+        solution: "This puzzle demonstrates horizontal reflection. Each colored cell's position is mirrored across the vertical center axis."
+      },
+      {
+        id: 2,
+        title: "Clockwise Rotation",
+        description: "<strong>Task:</strong> Rotate the entire input pattern 90 degrees clockwise to create the output.",
+        input: [
+          [2, 2, 0],
+          [2, 0, 0],
+          [0, 0, 0]
+        ],
+        output: [
+          [0, 2, 2],
+          [0, 0, 2],
+          [0, 0, 0]
+        ],
+        hint: "Look at how the shape rotates. It's a 90-degree clockwise rotation.",
+        solution: "The pattern rotates 90 degrees clockwise around the center. The square in top-left moves to top-right."
+      },
+      {
+        id: 3,
+        title: "Complete the Symmetry",
+        description: "<strong>Task:</strong> The input pattern is almost symmetrical. Fill in the single missing cell in the output grid to complete the symmetry.",
+        input: [
+          [3, 0, 3],
+          [0, 0, 0],
+          [3, 0, 3]
+        ],
+        output: [
+          [3, 0, 3],
+          [0, 3, 0],
+          [3, 0, 3]
+        ],
+        hint: "The pattern adds a center point. Look at the symmetry - corners are filled, and the center becomes filled too.",
+        solution: "This puzzle fills the center of a symmetric pattern. The four corners have color, and the logical next step is filling the center."
+      },
+      {
+        id: 4,
+        title: "Diagonal Shift",
+        description: "<strong>Task:</strong> Move the entire shape from the input grid one cell down and one cell to the right to form the output.",
+        input: [
+          [4, 4, 0],
+          [4, 4, 0],
+          [0, 0, 0]
+        ],
+        output: [
+          [0, 0, 0],
+          [0, 4, 4],
+          [0, 4, 4]
+        ],
+        hint: "The square block moves diagonally down and to the right by one position.",
+        solution: "The 2x2 square shifts one cell down and one cell right, demonstrating diagonal translation."
+      },
+      {
+        id: 5,
+        title: "Spatial Inversion",
+        description: "<strong>Task:</strong> Invert the pattern. Where the input grid has color, make the output empty. Where the input is empty, fill it with color.",
+        input: [
+          [5, 5, 5],
+          [5, 0, 5],
+          [5, 5, 5]
+        ],
+        output: [
+          [0, 0, 0],
+          [0, 5, 0],
+          [0, 0, 0]
+        ],
+        hint: "The filled boundary becomes empty, and the empty center becomes filled - it's an inversion!",
+        solution: "This demonstrates logical inversion: the border (filled) becomes empty, and the center (empty) becomes filled. The pattern inverts."
+      }
+    ];
+
+    const colors = {
+      0: '#1f2937', // Empty
+      1: '#ef4444', // Red
+      2: '#3b82f6', // Blue
+      3: '#fbbf24', // Yellow
+      4: '#10b981', // Green
+      5: '#a78bfa'  // Purple
+    };
+
+    let currentPuzzleIndex = 0;
+    let selectedColor = 1;
+    let userGrids = [];
+    let startTime;
+    let timerInterval;
+    let completedPuzzles = 0;
+    let puzzleAttempts = [];
+    
+    function startSession() {
+      document.getElementById('landingPage').style.display = 'none';
+      document.getElementById('puzzleContainer').style.display = 'block';
+      startTime = Date.now();
+      initializePuzzles();
+    }
+
+    function initializePuzzles() {
+      const container = document.getElementById('puzzlesContainer');
+      puzzles.forEach((puzzle, index) => {
+        const puzzleDiv = document.createElement('div');
+        puzzleDiv.className = 'puzzle-container';
+        puzzleDiv.id = `puzzle-${index}`;
+        if (index === 0) puzzleDiv.classList.add('active');
+
+        puzzleDiv.innerHTML = `
+          <h2 class="puzzle-title">Puzzle ${puzzle.id}: ${puzzle.title}</h2>
+          <div class="puzzle-description">${puzzle.description}</div>
+          
+          <div class="grid-section">
+            <div class="grid-label">Input (Reference)</div>
+            <div class="grid" id="input-grid-${index}"></div>
+          </div>
+          
+          <div class="grid-section">
+            <div class="grid-label">Your Output</div>
+            <div class="grid" id="output-grid-${index}"></div>
+          </div>
+          
+          <div class="grid-label">Select Color</div>
+          <div class="color-palette" id="palette-${index}"></div>
+          
+          <div class="actions">
+            <button class="btn btn-primary" onclick="checkAnswer(${index})">Submit Answer</button>
+            <button class="btn btn-warning" onclick="showHint(${index})">Show Hint</button>
+            <button class="btn btn-secondary" onclick="showSolution(${index})">View Solution</button>
+            <button class="btn btn-secondary" onclick="clearGrid(${index})">Clear Grid</button>
+            ${index < puzzles.length - 1 ? `<button class="btn btn-secondary" onclick="skipPuzzle(${index})">Skip to Next</button>` : ''}
+            ${index === puzzles.length - 1 ? `<button class="btn btn-success" onclick="finishSession()">Finish Session</button>` : ''}
+          </div>
+        `;
+
+        container.appendChild(puzzleDiv);
+        renderPuzzle(index);
+      });
+
+      startTimer();
+    }
+
+    function renderPuzzle(index) {
+      const puzzle = puzzles[index];
+      const inputGrid = document.getElementById(`input-grid-${index}`);
+      const outputGrid = document.getElementById(`output-grid-${index}`);
+      const palette = document.getElementById(`palette-${index}`);
+
+      inputGrid.style.gridTemplateColumns = `repeat(${puzzle.input[0].length}, 40px)`;
+      outputGrid.style.gridTemplateColumns = `repeat(${puzzle.output[0].length}, 40px)`;
+
+      puzzle.input.forEach(row => {
+        row.forEach(cell => {
+          const cellDiv = document.createElement('div');
+          cellDiv.className = 'grid-cell';
+          cellDiv.style.backgroundColor = colors[cell];
+          cellDiv.style.cursor = 'default';
+          inputGrid.appendChild(cellDiv);
+        });
+      });
+
+      userGrids[index] = puzzle.output.map(row => row.map(() => 0));
+
+      puzzle.output.forEach((row, r) => {
+        row.forEach((cell, c) => {
+          const cellDiv = document.createElement('div');
+          cellDiv.className = 'grid-cell';
+          cellDiv.style.backgroundColor = colors[0];
+          cellDiv.onclick = () => paintCell(index, r, c, cellDiv);
+          outputGrid.appendChild(cellDiv);
+        });
+      });
+
+      Object.keys(colors).forEach(colorKey => {
+        if (colorKey === '0') return; // Don't add the 'empty' color to the palette
+        const colorDiv = document.createElement('div');
+        colorDiv.className = 'color-option';
+        colorDiv.style.backgroundColor = colors[colorKey];
+        if (colorKey == selectedColor) colorDiv.classList.add('selected');
+        colorDiv.onclick = () => selectColor(index, colorKey, colorDiv);
+        palette.appendChild(colorDiv);
+      });
+    }
+
+    function selectColor(puzzleIndex, colorKey, element) {
+      selectedColor = parseInt(colorKey);
+      document.querySelectorAll(`#palette-${puzzleIndex} .color-option`).forEach(el => {
+        el.classList.remove('selected');
+      });
+      element.classList.add('selected');
+    }
+
+    function paintCell(puzzleIndex, row, col, element) {
+      const currentColor = userGrids[puzzleIndex][row][col];
+      const newColor = currentColor === selectedColor ? 0 : selectedColor;
+      userGrids[puzzleIndex][row][col] = newColor;
+      element.style.backgroundColor = colors[newColor];
+    }
+
+    function clearGrid(index) {
+      userGrids[index] = puzzles[index].output.map(row => row.map(() => 0));
+      const outputGrid = document.getElementById(`output-grid-${index}`);
+      outputGrid.querySelectorAll('.grid-cell').forEach(cell => {
+        cell.style.backgroundColor = colors[0];
+      });
+    }
+
+    function checkAnswer(index) {
+      const puzzle = puzzles[index];
+      const correct = JSON.stringify(userGrids[index]) === JSON.stringify(puzzle.output);
+      
+      if (correct) {
+        alert('🎉 Correct! Well done!');
+        completedPuzzles++;
+        document.getElementById('completedCount').textContent = completedPuzzles;
+        puzzleAttempts[index] = { completed: true, skipped: false };
+        if (index < puzzles.length - 1) {
+          nextPuzzle(index);
+        }
+      } else {
+        alert('❌ Not quite right. Try again or use a hint!');
+        if (!puzzleAttempts[index]) {
+            puzzleAttempts[index] = { completed: false, skipped: false };
+        }
+      }
+    }
+
+    function showHint(index) {
+      document.getElementById('hintText').textContent = puzzles[index].hint;
+      document.getElementById('hintModal').classList.add('active');
+    }
+
+    function showSolution(index) {
+      const puzzle = puzzles[index];
+      document.getElementById('solutionText').textContent = puzzle.solution;
+      
+      const solutionGridDiv = document.getElementById('solutionGrid');
+      solutionGridDiv.innerHTML = '<div class="grid-label" style="margin-top: 20px;">Correct Output:</div>';
+      const gridContainer = document.createElement('div');
+      gridContainer.className = 'grid';
+      gridContainer.style.gridTemplateColumns = `repeat(${puzzle.output[0].length}, 40px)`;
+      
+      puzzle.output.forEach(row => {
+        row.forEach(cell => {
+          const cellDiv = document.createElement('div');
+          cellDiv.className = 'grid-cell';
+          cellDiv.style.backgroundColor = colors[cell];
+          cellDiv.style.cursor = 'default';
+          gridContainer.appendChild(cellDiv);
+        });
+      });
+      
+      solutionGridDiv.appendChild(gridContainer);
+      document.getElementById('solutionModal').classList.add('active');
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+    }
+
+    function skipPuzzle(index) {
+      if (!puzzleAttempts[index]) {
+        puzzleAttempts[index] = { completed: false, skipped: true };
+      } else {
+        puzzleAttempts[index].skipped = true;
+      }
+      nextPuzzle(index);
+    }
+
+    function nextPuzzle(index) {
+      document.getElementById(`puzzle-${index}`).classList.remove('active');
+      currentPuzzleIndex = index + 1;
+      document.getElementById(`puzzle-${currentPuzzleIndex}`).classList.add('active');
+      document.getElementById('currentPuzzle').textContent = `${currentPuzzleIndex + 1} / 5`;
+    }
+
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
+        const seconds = (elapsed % 60).toString().padStart(2, '0');
+        document.getElementById('timeElapsed').textContent = `${minutes}:${seconds}`;
+      }, 1000);
+    }
+
+    function finishSession() {
+      clearInterval(timerInterval);
+      const totalTime = Math.floor((Date.now() - startTime) / 1000);
+      const minutes = Math.floor(totalTime / 60);
+      const seconds = totalTime % 60;
+
+      // Ensure all puzzles have an attempt status
+      for (let i = 0; i < puzzles.length; i++) {
+        if (!puzzleAttempts[i]) {
+          puzzleAttempts[i] = { completed: false, skipped: false };
+        }
+      }
+
+      const summaryHTML = `
+        <div class="summary-item">
+          <span><strong>Total Time:</strong></span>
+          <span>${minutes}m ${seconds}s</span>
+        </div>
+        <div class="summary-item">
+          <span><strong>Puzzles Completed:</strong></span>
+          <span>${completedPuzzles} / 5</span>
+        </div>
+        <div class="summary-item">
+          <span><strong>Success Rate:</strong></span>
+          <span>${Math.round((completedPuzzles / 5) * 100)}%</span>
+        </div>
+        <div style="margin-top: 20px;">
+          <p><strong>Performance by Puzzle:</strong></p>
+          ${puzzles.map((p, i) => `
+            <div class="summary-item">
+              <span>Puzzle ${p.id}: ${p.title}</span>
+              <span>${puzzleAttempts[i]?.completed ? '<span class="completed-badge">✓ Completed</span>' : (puzzleAttempts[i]?.skipped ? '<span class="skipped-badge">Skipped</span>' : '<span class="skipped-badge">Incomplete</span>')}</span>
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+      document.getElementById('summaryContent').innerHTML = summaryHTML;
+      document.getElementById('summaryModal').classList.add('active');
+    }
+
+    window.onclick = function(event) {
+      if (event.target.classList.contains('modal')) {
+        event.target.classList.remove('active');
+      }
+    }
+
+  </script>
+</body>
+</html>
