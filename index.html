@@ -18,8 +18,8 @@
         <p class="byline">Aryan Arora — under the guidance of Prof. Somak Aditya · IIT Kharagpur</p>
       </div>
       <nav class="nav">
-        <a class="btn ghost" href="#paper">Read Proposal</a>
-        <a class="btn" href="#platform">Prototype (Coming Soon)</a>
+        <a class="btn ghost" href="#contact">Read Proposal</a>
+        <a class="btn" href="prototype.html">Try Prototype</a>
       </nav>
     </div>
   </header>
@@ -33,10 +33,10 @@
             <h2>Towards rigorous reasoning and educational impact</h2>
             <p class="lead">
               Combining evolutionary program synthesis with language-model reasoning to build verified,
-              multimodal puzzle-solving assistants and a lightweight student-facing platform for Grades 1–8.
+              multimodal puzzle-solving assistants and a lightweight student-facing platform for Grades 1-8.
             </p>
             <div class="cta-row">
-              <a class="btn" id="paper" href="assets/paper.pdf" target="_blank" rel="noopener">Download Proposal (PDF)</a>
+              <a class="btn" id="paper" href="#contact">Contact for Proposal</a>
               <a class="btn ghost" href="#contact">Contact / Join</a>
             </div>
 
@@ -82,66 +82,53 @@
     </section>
 
     <section class="section container" id="approach">
-        <h2 class="section-title">⚙️ Our Technical Approach</h2>
-        <p class="lead" style="text-align: center; max-width: 800px; margin: -2rem auto 3rem auto;">
-            Our process integrates the creative reasoning of LLMs with the logical rigor of formal methods, ensuring our solutions are both insightful and guaranteed to be correct.
-        </p>
+      <h2 class="section-title">⚙️ Our Technical Approach</h2>
+      <p class="lead" style="text-align: center; max-width: 800px; margin: -2rem auto 3rem auto;">
+        Our process integrates the creative reasoning of LLMs with the logical rigor of formal methods, ensuring our solutions are both insightful and guaranteed to be correct.
+      </p>
 
-        <div class="pipeline-flow">
-            <div class="flow-item"><strong>1. Datasets &amp; Benchmarks</strong></div>
-            <div class="flow-item"><strong>2. Formal Representation (PDDL)</strong></div>
-            <div class="flow-item"><strong>3. LLM-Generated Proposals</strong></div>
-            <div class="flow-item"><strong>4. Evolutionary Synthesis &amp; Verification</strong></div>
-            <div class="flow-item"><strong>5. Student Interface &amp; Logging</strong></div>
-        </div>
+      <div class="pipeline-flow">
+        <div class="flow-item"><strong>1. Datasets &amp; Benchmarks</strong></div>
+        <div class="flow-item"><strong>2. Formal Representation (PDDL)</strong></div>
+        <div class="flow-item"><strong>3. LLM-Generated Proposals</strong></div>
+        <div class="flow-item"><strong>4. Evolutionary Synthesis &amp; Verification</strong></div>
+        <div class="flow-item"><strong>5. Student Interface &amp; Logging</strong></div>
+      </div>
 
-        <div class="grid" style="margin-top: 4rem;">
-            <div class="card">
-                <h3>🎯 Measuring Success: Core Metrics</h3>
-                <ul>
-                    <li><strong>Solution Correctness:</strong> Every solution must be 100% executable and formally verified.</li>
-                    <li><strong>Solution Diversity:</strong> The system must find multiple, distinct valid solution paths.</li>
-                    <li><strong>Hint Usefulness:</strong> The quality of generated hints will be rated by human evaluators.</li>
-                    <li><strong>Generalization Power:</strong> We will test performance on unseen puzzle types to measure true reasoning.</li>
-                </ul>
-            </div>
-            <div class="card">
-                <h3>🏫 From Lab to Classroom: Pilot Studies</h3>
-                <p>
-                    To bridge research and real-world impact, we will conduct pilot studies in local classrooms, delivering the puzzle assistant in <strong>Hindi (हिन्दी)</strong> and <strong>Bengali (বাংলা)</strong>.
-                </p>
-                <p>
-                    The primary goals are to measure student engagement and learning outcomes, using the collected data to iteratively improve the AI solver.
-                </p>
-            </div>
+      <div class="grid" style="margin-top: 4rem;">
+        <div class="card">
+          <h3>🎯 Measuring Success: Core Metrics</h3>
+          <ul>
+            <li><strong>Solution Correctness:</strong> Every solution must be 100% executable and formally verified.</li>
+            <li><strong>Solution Diversity:</strong> The system must find multiple, distinct valid solution paths.</li>
+            <li><strong>Hint Usefulness:</strong> The quality of generated hints will be rated by human evaluators.</li>
+            <li><strong>Generalization Power:</strong> We will test performance on unseen puzzle types to measure true reasoning.</li>
+          </ul>
         </div>
-    </section>
-    <section class="container sections" id="timeline">
-      <h3>Timeline (12 months)</h3>
-      <ol class="timeline">
-        <li><strong>Months 1–3:</strong> Dataset curation and baseline reproduction.</li>
-        <li><strong>Months 4–6:</strong> Implement LLM + evolutionary + symbolic pipeline; initial experiments.</li>
-        <li><strong>Months 7–9:</strong> Stochastic/image-based puzzles; hint generation; human evaluation setup.</li>
-        <li><strong>Months 10–12:</strong> Pilot GUI, finalize experiments, paper write-up, public release.</li>
-      </ol>
+        <div class="card">
+          <h3>🏫 From Lab to Classroom: Pilot Studies</h3>
+          <p>
+            To bridge research and real-world impact, we will conduct pilot studies in local classrooms, delivering the puzzle assistant in <strong>Hindi (हिन्दी)</strong> and <strong>Bengali (বাংলা)</strong>.
+          </p>
+          <p>
+            The primary goals are to measure student engagement and learning outcomes, using the collected data to iteratively improve the AI solver.
+          </p>
+        </div>
+      </div>
     </section>
 
     <section class="container sections" id="platform">
-      <h3>Prototype / Platform (placeholder)</h3>
+      <h3>Prototype / Platform</h3>
       <p>
-        A lightweight, static-first student GUI (HTML/CSS/JS) will offer puzzle interaction, hint requests, and attempt logging.
-        The demo will be linked here when ready. For now, this site acts as the canonical project landing page and documentation hub.
+      A lightweight, static-first student GUI (HTML/CSS/JS) offers puzzle interaction, hint requests, and attempt logging. This site acts as the canonical project landing page and documentation hub.
       </p>
 
       <div class="card demo-card">
-        <h4>Prototype features (planned)</h4>
-        <ul>
-          <li>Adaptive difficulty & multi-strategy hints</li>
-          <li>Local-language support</li>
-          <li>Teacher dashboard (summary traces)</li>
-          <li>Small-scale pilot data collection</li>
-        </ul>
-        <div class="muted">Demo coming soon — subscribe via contact below.</div>
+        <h4>Try the Live Demo</h4>
+        <p>
+          You can try a lightweight prototype featuring 5 puzzles from the ARCAGI dataset. These puzzles, along with their solutions and hints, are currently pre-generated. In future iterations, we aim to integrate our evolutionary program synthesis to generate puzzles and solutions on demand.
+        </p>
+        <a class="btn" href="prototype.html">Launch Prototype Demo</a>
       </div>
     </section>
 
@@ -166,7 +153,7 @@
       <h3>Paper & artifacts</h3>
       <p>Full proposal (PDF) and eventual code & datasets will be released under an open-source license.</p>
       <div class="row">
-        <a class="btn" href="assets/paper.pdf" target="_blank" rel="noopener">Open Proposal (PDF)</a>
+        <a class="btn" href="#contact">Contact for Proposal</a>
         <a class="btn ghost" href="https://github.com/aryan1612/puzzle-evo-ai/" target="_blank" rel="noopener">Project repo</a>
       </div>
     </section>
@@ -175,7 +162,7 @@
       <h3>Contact</h3>
       <p>If you'd like to collaborate, pilot the prototype, or reproduce results, get in touch:</p>
       <p class="contact-info">aryan.arora@iitkgp.ac.in · Department of Mathematics and Computing, IIT Kharagpur</p>
-      <p class="small muted">Or open an issue / PR on the project repository once it’s live.</p>
+      <p class="small muted">Or open an issue / PR on the project repository once it's live.</p>
     </section>
   </main>
 
@@ -186,7 +173,7 @@
         <div class="muted small">Aryan Arora · Dept. of Mathematics and Computing · IIT Kharagpur</div>
       </div>
       <div class="footer-links">
-        <a href="assets/paper.pdf" target="_blank" rel="noopener">Proposal (PDF)</a>
+        <a href="#contact">Proposal</a>
         <span class="muted">•</span>
         <a href="https://github.com/aryan1612/puzzle-evo-ai/" target="_blank" rel="noopener">GitHub</a>
       </div>
